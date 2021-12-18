@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HelenSposa.Business.Mapping.AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace HelenSposa.WebApi
 {
@@ -36,6 +37,7 @@ namespace HelenSposa.WebApi
         {
             services.AddControllers();
             services.AddAutoMapper(typeof(MappingProfile));
+            services.AddHttpContextAccessor();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HelenSposa.WebApi", Version = "v1" });

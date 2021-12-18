@@ -1,4 +1,6 @@
 ﻿using HelenSposa.Business.Abstract;
+using HelenSposa.Core.Entities;
+using HelenSposa.Core.Entities.Dtos;
 using HelenSposa.Entities.Dtos.Expense;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,7 +25,8 @@ namespace HelenSposa.WebApi.Controllers
 
 
         // GET: api/<ExpensesController>
-        [HttpGet]
+        //default get method
+        /*[HttpGet]
         public IActionResult Get()
         {
             var result = _expenseManager.GetAll();
@@ -33,13 +36,32 @@ namespace HelenSposa.WebApi.Controllers
                 return BadRequest(result);
             }
             return Ok(result);
+        }*/
+
+        [HttpGet]
+        public IActionResult Get([FromQuery] PaginationDto filter)
+        {
+            var result = _expenseManager.GetAll(filter);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
+
 
         // GET api/<ExpensesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var result = _expenseManager.GetById(id);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         // POST api/<ExpensesController>

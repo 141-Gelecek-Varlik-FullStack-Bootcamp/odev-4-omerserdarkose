@@ -1,4 +1,5 @@
-﻿using HelenSposa.Core.Utilities.Result;
+﻿using HelenSposa.Core.Entities.Dtos;
+using HelenSposa.Core.Utilities.Result;
 using HelenSposa.Entities.Dtos.Expense;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,14 @@ namespace HelenSposa.Business.Abstract
 {
     public interface IExpenseService
     {
-        IDataResult<List<ExpenseShowDto>> GetAll();
+        IPaginationDataResult<List<ExpenseShowDto>> GetAll(PaginationDto paginationDto = null);
+
+        IDataResult<ExpenseShowDto> GetById(int id);
+
         IResult Add(ExpenseAddDto addedExpense);
+
         IResult Delete(ExpenseDeleteDto deletedExpense);
+
         IResult Update(ExpenseUpdateDto updatedExpense);
     }
 }

@@ -30,6 +30,8 @@ namespace HelenSposa.Business.DependencyResolvers.Autofac
             builder.RegisterType<UserManager>().As<IUserService>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();
 
+            builder.RegisterType<PaginationUriManager>().As<IPaginationUriService>();
+
         }
     }
 }

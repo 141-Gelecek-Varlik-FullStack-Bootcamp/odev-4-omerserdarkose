@@ -20,6 +20,7 @@
 - **Attribute** kullanimi
 - **Reflection** kullanimi
 - **Dependency Injection** ve IoC Container(**Autofac**) kullanimi
+- Yorum satirlari icin **XML Tag** kullanimi
 - **AutoMapper** kutuphanesine ait kullanim ornekleri
 - **FluentValidation** kutuphanesine ait kullanim ornekleri
 - **JWT** kutuphanesine ait kullanim ornekleri

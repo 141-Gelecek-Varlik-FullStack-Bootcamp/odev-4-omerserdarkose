@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using HelenSposa.Business.Abstract;
 using HelenSposa.Business.Constant;
+using HelenSposa.Business.Extensions;
+using HelenSposa.Core.Entities.Dtos;
 using HelenSposa.Core.Utilities.Result;
 using HelenSposa.DataAccess.Abstract;
 using HelenSposa.Entities.Concrete;
@@ -17,11 +19,13 @@ namespace HelenSposa.Business.Concrete.Managers
     {
         private IExpenseDal _expenseDal;
         private IMapper _mapper;
+        private IPaginationUriService _paginationUriManager;
 
-        public ExpenseManager(IExpenseDal expenseDal, IMapper mapper)
+        public ExpenseManager(IExpenseDal expenseDal, IMapper mapper, IPaginationUriService paginationUriManager)
         {
             _expenseDal = expenseDal;
             _mapper = mapper;
+            _paginationUriManager = paginationUriManager;
         }
 
         public IResult Add(ExpenseAddDto addedExpense)
@@ -38,12 +42,28 @@ namespace HelenSposa.Business.Concrete.Managers
             return new SuccessResult(Messages.ExpenseDeleted);
         }
 
-        public IDataResult<List<ExpenseShowDto>> GetAll()
+        public IPaginationDataResult<List<ExpenseShowDto>> GetAll(PaginationDto paginationDto = null)
         {
-            var expenseList = _expenseDal.GetList();
+            var pagination = new PaginationDto(paginationDto.PageNumber, paginationDto.PageSize);
+
+            var count = _expenseDal.GetList().Count();
+            var expenseList = _expenseDal.GetPagination(null,pagination);
             var mapExpenseList = _mapper.Map<List<ExpenseShowDto>>(expenseList);
-            return new SuccessDataResult<List<ExpenseShowDto>>(mapExpenseList);
+ 
+            return PaginationExtensions.CreatePaginationResult(mapExpenseList, pagination, count, _paginationUriManager,true);
+
+
+            
+            /*return new SuccessDataResult<List<ExpenseShowDto>>(mapExpenseList);*/
         }
+
+        public IDataResult<ExpenseShowDto> GetById(int id)
+        {
+            var expense = _expenseDal.Get(e => e.Id == id);
+            var mapExpense = _mapper.Map<ExpenseShowDto>(expense);
+            return new SuccessDataResult<ExpenseShowDto>(mapExpense);
+        }
+
 
         public IResult Update(ExpenseUpdateDto updatedExpense)
         {
