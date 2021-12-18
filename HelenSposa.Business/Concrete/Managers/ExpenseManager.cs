@@ -10,6 +10,7 @@ using HelenSposa.Entities.Dtos.Expense;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,12 +43,16 @@ namespace HelenSposa.Business.Concrete.Managers
             return new SuccessResult(Messages.ExpenseDeleted);
         }
 
-        public IPaginationDataResult<List<ExpenseShowDto>> GetAll(PaginationDto paginationDto = null)
+        public IPaginationDataResult<List<ExpenseShowDto>> GetAll(string filter = null,PaginationDto paginationDto = null)
         {
             var pagination = new PaginationDto(paginationDto.PageNumber, paginationDto.PageSize);
+            
+            //filtre gonderildiginde filtreli olarak donu yapiyor
+            /*var count = _expenseDal.GetList(x => x.TypeId == 2).Count();
+            var expenseList = _expenseDal.GetPagination(x => x.TypeId == 2,pagination);*/
 
-            var count = _expenseDal.GetList().Count();
-            var expenseList = _expenseDal.GetPagination(null,pagination);
+            var count = _expenseDal.GetList(filter!=null? x => x.Type.Name == filter:null).Count();
+            var expenseList = _expenseDal.GetPagination(filter != null ? x => x.Type.Name == filter : null, pagination);
             var mapExpenseList = _mapper.Map<List<ExpenseShowDto>>(expenseList);
  
             return PaginationExtensions.CreatePaginationResult(mapExpenseList, pagination, count, _paginationUriManager,true);

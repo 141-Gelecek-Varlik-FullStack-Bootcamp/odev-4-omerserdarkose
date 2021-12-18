@@ -39,9 +39,9 @@ namespace HelenSposa.WebApi.Controllers
         }*/
 
         [HttpGet]
-        public IActionResult Get([FromQuery] PaginationDto filter)
+        public IActionResult Get([FromQuery] PaginationDto paginationDto,string filter)
         {
-            var result = _expenseManager.GetAll(filter);
+            var result = _expenseManager.GetAll(filter, paginationDto);
 
             if (!result.Success)
             {
