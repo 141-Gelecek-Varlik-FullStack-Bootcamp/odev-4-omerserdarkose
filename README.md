@@ -1,4 +1,4 @@
-####Pagination ve Filtering Expense entitysine ait Get methodun eklendi
+#### Pagination ve Filtering Expense entitysine ait Get methoduna eklendi
 
 ## Patika-Gelecek Varlik Full Stack Bootcamp Projesi
 	Bootcamp suresince alinan egitimlerin uygulanmasi kapsaminda gelistirilen proje.
