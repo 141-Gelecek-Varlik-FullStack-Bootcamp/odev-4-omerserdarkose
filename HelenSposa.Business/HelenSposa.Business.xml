@@ -4,5 +4,39 @@
         <name>HelenSposa.Business</name>
     </assembly>
     <members>
+        <member name="T:HelenSposa.Business.Abstract.IPaginationUriService">
+            <summary>
+            sayfalama islemli sonuclarimizi donerken belirtecek oldugumuz 
+            bir onceki sayfa, bir sonraki sayfa ve son sayfayi uri olarak olusturacak olan
+            PaginationUriManagerin soyutlamak icin kullanacagimiz interface tanimliyoruz
+            </summary>
+        </member>
+        <member name="T:HelenSposa.Business.Concrete.Managers.PaginationUriManager">
+            <summary>
+            sayfalama islemli sonuclarimizi donerken belirtecek oldugumuz 
+            bir onceki sayfa, bir sonraki sayfa ve son sayfayi uri olarak olusturacak olan
+            PaginationUriManager i tanimliyoruz
+            </summary>
+        </member>
+        <member name="M:HelenSposa.Business.Concrete.Managers.PaginationUriManager.GetPageUri(HelenSposa.Core.Entities.Dtos.PaginationDto)">
+            <summary>
+            gonderilen sayfa numarasi ve sayfadaki element miktarina gore
+            uri olusturur
+            </summary>
+            <param name="paginationDto">sayfa numarasi ve element miktari blgilerini icerir</param>
+            <returns></returns>
+        </member>
+        <member name="M:HelenSposa.Business.Extensions.PaginationExtensions.CreatePaginationResult``1(``0,HelenSposa.Core.Entities.Dtos.PaginationDto,System.Int32,HelenSposa.Business.Abstract.IPaginationUriService,System.Boolean)">
+            <summary>
+            api ye donus tipi olacak olan sayfalama bilgilerini iceren Result nesnesini olusturan static method
+            </summary>
+            <typeparam name="T">gosterilecek datanin tipi</typeparam>
+            <param name="pagedData">apiye donen ve gosterilecek olan araliktaki veri</param>
+            <param name="paginationDto">onceki,sonraki ve son sayfa hesaplamalarinda kullanilacak sayfa numarasi ve her sayfadaki elemnet sayisini tutan nesne</param>
+            <param name="totalRecords">gerekli sartlara uyan toplam data sayisi</param>
+            <param name="PaginationUriManager">onceki,sonraki ve son sayfa uri ini olusturacak manager nesnesi</param>
+            <param name="success">islem sonuc turu</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

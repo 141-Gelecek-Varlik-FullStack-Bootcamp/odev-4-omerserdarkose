@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using HelenSposa.Business.Abstract;
 using HelenSposa.Business.Concrete.Managers;
+using HelenSposa.Core.Entities;
+using HelenSposa.Core.Entities.Dtos;
 using HelenSposa.DataAccess.Abstract;
 using HelenSposa.DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +33,8 @@ namespace HelenSposa.Business.DependencyResolvers.Autofac
             builder.RegisterType<EfUserDal>().As<IUserDal>();
 
             builder.RegisterType<PaginationUriManager>().As<IPaginationUriService>();
+
+            builder.RegisterType<PaginationDto>().As<IPaginationDto>();
 
         }
     }

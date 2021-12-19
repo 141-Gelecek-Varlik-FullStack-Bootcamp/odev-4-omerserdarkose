@@ -2,6 +2,7 @@
 using HelenSposa.Business.Abstract;
 using HelenSposa.Business.Constant;
 using HelenSposa.Business.Extensions;
+using HelenSposa.Core.Entities;
 using HelenSposa.Core.Entities.Dtos;
 using HelenSposa.Core.Utilities.Result;
 using HelenSposa.DataAccess.Abstract;
@@ -21,12 +22,14 @@ namespace HelenSposa.Business.Concrete.Managers
         private IExpenseDal _expenseDal;
         private IMapper _mapper;
         private IPaginationUriService _paginationUriManager;
+        private IPaginationDto _paginationDto;
 
-        public ExpenseManager(IExpenseDal expenseDal, IMapper mapper, IPaginationUriService paginationUriManager)
+        public ExpenseManager(IExpenseDal expenseDal, IMapper mapper, IPaginationUriService paginationUriManager, IPaginationDto paginationDto)
         {
             _expenseDal = expenseDal;
             _mapper = mapper;
             _paginationUriManager = paginationUriManager;
+            _paginationDto = paginationDto;
         }
 
         public IResult Add(ExpenseAddDto addedExpense)
@@ -45,21 +48,20 @@ namespace HelenSposa.Business.Concrete.Managers
 
         public IPaginationDataResult<List<ExpenseShowDto>> GetAll(string filter = null,PaginationDto paginationDto = null)
         {
-            var pagination = new PaginationDto(paginationDto.PageNumber, paginationDto.PageSize);
-            
-            //filtre gonderildiginde filtreli olarak donu yapiyor
-            /*var count = _expenseDal.GetList(x => x.TypeId == 2).Count();
-            var expenseList = _expenseDal.GetPagination(x => x.TypeId == 2,pagination);*/
+            var _paginationDto = paginationDto;
 
+            //sartlara uyan toplam data sayisi bulunuyor, bu isem icin ayri bir sorgu yapmamam gerekiyor refactor edilecek
             var count = _expenseDal.GetList(filter!=null? x => x.Type.Name == filter:null).Count();
-            var expenseList = _expenseDal.GetPagination(filter != null ? x => x.Type.Name == filter : null, pagination);
+
+            //sayfa ve filtre kriterlerine gore dbden data cekiliyor
+            var expenseList = _expenseDal.GetPagination(filter != null ? x => x.Type.Name == filter : null, _paginationDto);
+
+            //cekilen data gosterim icin map ediliyor
             var mapExpenseList = _mapper.Map<List<ExpenseShowDto>>(expenseList);
  
-            return PaginationExtensions.CreatePaginationResult(mapExpenseList, pagination, count, _paginationUriManager,true);
+            //sayfalama bilgilerini de iceren sonuc turu olusturulup apiye gonderiliyor
+            return PaginationExtensions.CreatePaginationResult(mapExpenseList, _paginationDto, count, _paginationUriManager,true);
 
-
-            
-            /*return new SuccessDataResult<List<ExpenseShowDto>>(mapExpenseList);*/
         }
 
         public IDataResult<ExpenseShowDto> GetById(int id)
@@ -68,7 +70,6 @@ namespace HelenSposa.Business.Concrete.Managers
             var mapExpense = _mapper.Map<ExpenseShowDto>(expense);
             return new SuccessDataResult<ExpenseShowDto>(mapExpense);
         }
-
 
         public IResult Update(ExpenseUpdateDto updatedExpense)
         {

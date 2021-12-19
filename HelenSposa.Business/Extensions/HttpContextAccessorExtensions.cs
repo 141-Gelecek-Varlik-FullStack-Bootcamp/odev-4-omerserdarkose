@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HelenSposa.Business.Extensions
 {
+    //HttpContextAccessor ile elde ettigimiz uri uzerinde rahat islem yapabilmek icin 2 tane  extension method tanimliyoruz
     public static class HttpContextAccessorExtensions
     {
         public static string GetRequestUri(this IHttpContextAccessor httpContextAccessor)

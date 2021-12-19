@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 namespace HelenSposa.Core.Utilities.Result
 {
     /// <summary>
-    /// data donusu olmayan sadece isleme dair sonucu bildirirken kullanilacak result yapisi
-    /// sadece success durumu donebilir veya hem success durumu hemde mesaj donebilir
+    /// api ye sadece islemin basarili veya basarisiz oldugunu ve gerekirse bunu bir mesaj ile destekemek icin
+    /// kullanacagimiz Result tipini tanimliyoruz
+    /// 2 adet constructora sahip sadece islem sonucu veya sonuc+mesaj
     /// </summary>
     public class Result : IResult
     {

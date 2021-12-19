@@ -37,7 +37,8 @@ namespace HelenSposa.DataAccess.Concrete.EntityFramework
             {
                 var skip= (paginationDto.PageNumber - 1) * paginationDto.PageSize;
 
-                return filter == null ? context.Set<Expense>().Include(et => et.Type).Skip(skip).Take(paginationDto.PageSize).ToList() : context.Set<Expense>().Include(et => et.Type).Where(filter).Skip(skip).Take(paginationDto.PageSize).ToList();
+                return filter == null ? context.Set<Expense>().Include(et => et.Type).Skip(skip).Take(paginationDto.PageSize).ToList() 
+                                      : context.Set<Expense>().Include(et => et.Type).Where(filter).Skip(skip).Take(paginationDto.PageSize).ToList();
             }
         }
 

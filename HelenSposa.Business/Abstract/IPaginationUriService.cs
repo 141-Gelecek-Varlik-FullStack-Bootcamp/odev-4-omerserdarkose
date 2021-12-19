@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace HelenSposa.Business.Abstract
 {
+    /// <summary>
+    /// sayfalama islemli sonuclarimizi donerken belirtecek oldugumuz 
+    /// bir onceki sayfa, bir sonraki sayfa ve son sayfayi uri olarak olusturacak olan
+    /// PaginationUriManagerin soyutlamak icin kullanacagimiz interface tanimliyoruz
+    /// </summary>
     public interface IPaginationUriService
     {
         Uri GetPageUri(PaginationDto paginationDto);
